@@ -1,6 +1,6 @@
 ## 🧾 1. Basic Order Processing Workflow
-![Validate payment processing](image.png)
-![Inventory file updates](image-1.png)
+![Validate payment processing](images/image.png)
+![Inventory file updates](images/image-1.png)
 
 💡 Flow Explanation
 * API triggers workflow
@@ -11,8 +11,8 @@
 * Handles failure via cancellation
 
 ## 🔀 2. Parallel Processing Architecture
-![Image processor](image-2.png)
-![Large scale data processing](image-3.png)
+![Image processor](images/image-2.png)
+![Large scale data processing](images/image-3.png)
 
 💡 Flow Explanation
 * One input triggers multiple branches
@@ -26,7 +26,7 @@
 * Data enrichment
 
 ## 🔁 3. Nested State Machine (RUN_JOB Pattern)
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 💡 Flow Explanation
 * Parent workflow delegates complex logic
@@ -42,8 +42,8 @@
 * Better separation of concerns
 
 ## ⏳ 4. Human Approval (WAIT_FOR_TASK_TOKEN)
-![alt text](image-5.png)
-![alt text](image-6.png)
+![alt text](images/image-5.png)
+![alt text](images/image-6.png)
 
 💡 Flow Explanation
 * Step Function pauses execution
@@ -58,7 +58,7 @@
 * External async systems
 
 ## 🔄 5. Event-Driven Microservices Orchestration
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 💡 Flow Explanation
 * API Gateway triggers Step Function
