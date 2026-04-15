@@ -98,7 +98,7 @@ export class StepFunctionExamplesStack extends cdk.Stack {
      * =========================
      * Step Function Tasks
      * =========================
-     */
+    */
 
     const payStep = new tasks.LambdaInvoke(this, 'Process Payment', {
       lambdaFunction: payLambda,
@@ -134,7 +134,7 @@ export class StepFunctionExamplesStack extends cdk.Stack {
      * =========================
      * Parallel Processing
      * =========================
-     */
+    */
 
     // You can also use Parallel inside child
     const childFlow = confirmStep
@@ -158,7 +158,7 @@ export class StepFunctionExamplesStack extends cdk.Stack {
         stateMachine: childStateMachine,
         comment: 'Starts the post-order processing workflow after payment is successful',
         // IMPORTANT: wait for it to finish
-        integrationPattern: stepfunctions.IntegrationPattern.RUN_JOB,
+        integrationPattern: stepfunctions.IntegrationPattern.RUN_JOB
       }
     ).addCatch(globalErrorHandler, {
       resultPath: '$.error',
@@ -175,7 +175,8 @@ export class StepFunctionExamplesStack extends cdk.Stack {
           orderId: '12345',
           customerId: '67890',
           source: 'childSM_1'
-        })
+        }),
+        resultPath: '$.childSM1Result'
       }
     );
 
@@ -190,7 +191,8 @@ export class StepFunctionExamplesStack extends cdk.Stack {
           orderId: '12345',
           customerId: '67890',
           source: 'childSM_2'
-        })
+        }),
+        resultPath: '$.childSM2Result'
       }
     );
 
@@ -205,7 +207,8 @@ export class StepFunctionExamplesStack extends cdk.Stack {
           orderId: '12345',
           customerId: '67890',
           source: 'childSM_3'
-        })
+        }),
+        resultPath: '$.childSM3Result'
       }
     );
 
