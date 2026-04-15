@@ -164,16 +164,69 @@ export class StepFunctionExamplesStack extends cdk.Stack {
       resultPath: '$.error',
     });
 
+    const childSM_1 = new tasks.StepFunctionsStartExecution(
+      this,
+      'Child SM 1',
+      {
+        stateMachine: childStateMachine,
+        comment: 'child state machine 1',
+        integrationPattern: stepfunctions.IntegrationPattern.RUN_JOB,
+        input: stepfunctions.TaskInput.fromObject({
+          orderId: '12345',
+          customerId: '67890',
+          source: 'childSM_1'
+        })
+      }
+    );
+
+    const childSM_2 = new tasks.StepFunctionsStartExecution(
+      this,
+      'Child SM 2',
+      {
+        stateMachine: childStateMachine,
+        comment: 'child state machine 2',
+        integrationPattern: stepfunctions.IntegrationPattern.RUN_JOB,
+        input: stepfunctions.TaskInput.fromObject({
+          orderId: '12345',
+          customerId: '67890',
+          source: 'childSM_2'
+        })
+      }
+    );
+
+    const childSM_3 = new tasks.StepFunctionsStartExecution(
+      this,
+      'Child SM 3',
+      {
+        stateMachine: childStateMachine,
+        comment: 'child state machine 3',
+        integrationPattern: stepfunctions.IntegrationPattern.RUN_JOB,
+        input: stepfunctions.TaskInput.fromObject({
+          orderId: '12345',
+          customerId: '67890',
+          source: 'childSM_3'
+        })
+      }
+    );
+
     /**
      * =========================
      * Choice Logic
      * =========================
      */
 
+    const parallelChildSMs = new stepfunctions.Parallel(this, 'Run Multiple Child SMs in Parallel')
+      .branch(childSM_1)
+      .branch(childSM_2)
+      .branch(childSM_3)
+      .addCatch(globalErrorHandler, {
+        resultPath: '$.error',
+      });
+
     const isPaidChoice = new stepfunctions.Choice(this, 'Payment Successful?')
       .when(
         stepfunctions.Condition.stringEquals('$.status', 'PAID'),
-        postOrderWorkflow.next(successState)
+        parallelChildSMs.next(postOrderWorkflow).next(successState)
       )
       .otherwise(
         cancelStep.next(globalErrorHandler)
